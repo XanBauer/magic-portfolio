@@ -9,21 +9,21 @@ const routes = {
 };
 
 // Enable password protection on selected routes
-// Set password in the .env file, refer to .env.example
+// Set password in pages/api/authenticate.ts
 const protectedRoutes = {
   "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
 };
 
 const style = {
   theme: "dark", // dark | light
-  neutral: "gray", // sand | gray | slate
+  neutral: "sand", // sand | gray | slate
   brand: "emerald", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
   accent: "orange", // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-  solid: "contrast", // color | contrast
+  solid: "color", // color | contrast
   solidStyle: "flat", // flat | plastic
-  border: "playful", // rounded | playful | conservative
+  border: "conservative", // rounded | playful | conservative
   surface: "translucent", // filled | translucent
-  transition: "all", // all | micro | macro
+  transition: "micro", // all | micro | macro
 };
 
 const effects = {
@@ -64,7 +64,7 @@ const effects = {
 
 const display = {
   location: true,
-  time: true,
+  time: false,
 };
 
 const mailchimp = {

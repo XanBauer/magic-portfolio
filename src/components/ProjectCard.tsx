@@ -32,13 +32,31 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <Column fillWidth gap="m">
-      <Carousel
-        sizes="(max-width: 960px) 100vw, 960px"
-        images={images.map((image) => ({
-          src: image,
-          alt: title,
-        }))}
-      />
+      {/* Wrap in a relative div so SmartLink can overlay */}
+      <div style={{ position: "relative" }}>
+        <Carousel
+          sizes="(max-width: 960px) 100vw, 960px"
+          images={images.map((image) => ({
+            src: image,
+            alt: title
+          }))}
+        />
+        {/* Clickable overlay for the entire carousel */}
+        <SmartLink
+          href={href}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 10, // Ensures the link is clickable over the image
+          }}
+        >
+          <span style={{ display: "block", width: "100%", height: "100%" }}></span>
+        </SmartLink>
+      </div>
+
       <Flex
         mobileDirection="column"
         fillWidth
@@ -69,7 +87,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                   style={{ margin: "0", width: "fit-content" }}
                   href={href}
                 >
-                  <Text variant="body-default-s">Read case study</Text>
+                  <Text variant="body-default-s">View this Project</Text>
                 </SmartLink>
               )}
               {link && (

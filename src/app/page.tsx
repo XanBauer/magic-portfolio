@@ -97,6 +97,11 @@ export default function Home() {
           </RevealFx>
         </Column>
       </Column>
+      <Heading as="h2" variant="display-strong-xs" wrap="balance">
+        <RevealFx translateY="16" delay={0.6}>
+          Featured Project
+        </RevealFx>
+      </Heading>
       <RevealFx translateY="16" delay={0.6}>
         <Projects range={[1, 1]} />
       </RevealFx>
@@ -112,8 +117,8 @@ export default function Home() {
           </Flex>
         </Flex>
       )}
-      <Projects range={[2]} />
-      {newsletter.display && <Mailchimp newsletter={newsletter} />}
+      {/* <Projects range={[0]} /> */}
+      {/* {newsletter.display && <Mailchimp newsletter={newsletter} />} */}
     </Column>
   );
 }

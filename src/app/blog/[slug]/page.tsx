@@ -7,6 +7,7 @@ import { person } from "@/app/resources/content";
 import { formatDate } from "@/app/utils/formatDate";
 import ScrollToHash from "@/components/ScrollToHash";
 
+
 interface BlogParams {
   params: {
     slug: string;
@@ -61,6 +62,7 @@ export function generateMetadata({ params: { slug } }: BlogParams) {
   };
 }
 
+
 export default function Blog({ params }: BlogParams) {
   let post = getPosts(["src", "app", "blog", "posts"]).find((post) => post.slug === params.slug);
 
@@ -104,7 +106,7 @@ export default function Blog({ params }: BlogParams) {
       <Row gap="12" vertical="center">
         {avatars.length > 0 && <AvatarGroup size="s" avatars={avatars} />}
         <Text variant="body-default-s" onBackground="neutral-weak">
-          {formatDate(post.metadata.publishedAt)}
+          {post.metadata.publishedAt}
         </Text>
       </Row>
       <Column as="article" fillWidth>
