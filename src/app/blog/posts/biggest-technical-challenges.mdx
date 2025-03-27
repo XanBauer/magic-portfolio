@@ -1,0 +1,100 @@
+---
+title: "Biggest Technical Challenges & How I Solved Them"
+publishedAt: "2025-03-25"
+image: "/images/blogs/biggest-technical-challenges/overcoming-challenges.jpg"
+summary: "The journey of creating my professional portfolio"
+tag: "Journal"
+---
+
+## Challenges. Challenges Everywhere
+
+Every project has challenges — some expected, some not so much. 
+
+As I built my portfolio, I ran into obstacles that tested my patience, problem-solving skills, and ability to pivot.
+
+In this post, I’ll share the biggest technical hurdles I faced and how I overcame them. 
+
+## 📌 Summary Index for This Blog Series
+
+1. [**Why I Built My Portfolio**](/blog/why-i-built-my-portfolio)
+2. [**Choosing the Right Tech Stack**](/blog/choosing-the-right-tech-stack)
+3. **Biggest Technical Challenges & How I Solved Them**(You are here 📍)
+4. [**Lessons Learned from the Process**](#)  
+5. [**Final Thoughts & Next Steps**](#) 
+
+## Recap
+
+In my previous post, I discussed the importance of carefully choosing your tools. The right tool can introduce the challenge of a steeper learning curve. The wrong tool can introduce the challenge of more work to create a higher quality output. Let’s discuss how that played out here.
+
+## Challenge 1: Migrating from Jekyll to Next.js
+
+### The Problem
+
+Jekyll is great for getting a simple portfolio up and running, but I sought more interactivity and polish. I decided to migrate to Next.js for a more modern and dynamic setup.
+
+![Jekyll Home Page](/images/blogs/biggest-technical-challenges/jekyll-home.jpg)
+
+However, this wasn’t as simple as copying and pasting code. Jekyll and Next.js follow very different architectures:
+
+* Jekyll is a **static site generator** using Markdown and Liquid templates.
+* Next.js is a **React-based framework** that requires JavaScript and component-based development
+
+I had to learn how to **move my content** while **restructuring the site** to align with Next.js’ best practices.
+
+### The Solution
+
+I broke the migration into steps:
+* **Rebuild the page structure** – I converted Jekyll pages into React components and moved content into .tsx files.
+* **Replicate styling** – I adapted the existing CSS styles while experimenting with Tailwind CSS for a cleaner look.
+* **Test deployment** – After verifying that everything looked correct locally, I deployed and checked for issues.
+
+This approach kept the transition manageable, and I was able to iterate on top of it rather than getting stuck in a massive, messy migration.
+
+
+## Challenge 2: Handling image optimization in Next.js
+
+### The Problem
+
+At first, my images loaded inconsistently. Some were slow, some broke entirely, and some didn’t scale across devices.
+
+![Slow Snail](/images/blogs/biggest-technical-challenges/slow-load.jpg)
+
+The culprit? I was using standard \<img\> tags instead of Next.js’ Image component (next/image), which optimizes images for better performance.
+
+### The Solution
+
+I replaced all \<img\> tags with the Next.js \<Image\> component, making sure to:
+* Use the **width and height properties** to avoid layout shifts.
+* **Enable lazy loading** to improve page speed.
+* **Use dynamic imports** where needed to avoid unnecessary image requests.
+
+This small change significantly improved load times and made my portfolio look more polished.
+
+## Challenge 3: Fixing deployment issues on Vercel
+
+### The Problem
+
+I ran into an issue where the site **worked locally but failed on deployment**. 
+
+For my first time working with Vercel, this was the kind of challenge I expected.
+
+![Server Stack Failure](/images/blogs/biggest-technical-challenges/vercel-failure.jpg)
+
+### The Solution
+
+I debugged the problem by:
+* **Checking logs on Vercel** – This helped me pinpoint where dependencies were missing and variables misconfigured
+* **Verifying package.json** – I ensured all dependencies were correctly listed and installed.
+* **Adding environment variables in Vercel’s dashboard** – Some API keys weren’t being picked up correctly, so I had to set them manually in the project settings.
+
+Once the fixes were in place, the deployment succeeded, and my site was live!
+
+## Key Takeaways
+
+Every technical challenge was a learning opportunity. Here’s what I took away from the process:
+* 🛠 **Break down big challenges** – Migrating a site or fixing a deployment issue can feel overwhelming, but tackling it step by step makes it manageable.
+* ⚡ **Use the right tools** – Learning about Next.js features like next/image and Markdown rendering saved me time and improved performance.
+* 🔍 **Debug systematically** – Checking logs and testing incrementally helped me quickly pinpoint and fix deployment issues.
+
+## What's Next?
+In my next post, I’ll share some **lessons learned from this journey**—from balancing aesthetics with functionality to knowing when to refactor vs. move forward. Stay tuned!
