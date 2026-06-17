@@ -11,7 +11,7 @@ import {
   SocialSharingConfig,
   StyleConfig,
 } from "@/types";
-import { home } from "./index";
+import { home, person, social } from "./content";
 
 // IMPORTANT: Replace with your own domain address - it's used for SEO in meta tags and schema
 const baseURL: string = "https://demo.magic-portfolio.com";
@@ -184,20 +184,20 @@ const mailchimp: MailchimpConfig = {
   },
 };
 
-// default schema data
+// default schema data — pulls from content.tsx so there's one source of truth
 const schema: SchemaConfig = {
   logo: "",
-  type: "Organization",
-  name: "Once UI",
+  type: "Person",
+  name: person.name,
   description: home.description,
-  email: "lorant@once-ui.com",
+  email: person.email,
 };
 
-// social links
+// social links — derived from the social array in content.tsx to avoid duplication
 const sameAs: SameAsConfig = {
-  threads: "https://www.threads.com/@once_ui",
-  linkedin: "https://www.linkedin.com/company/once-ui/",
-  discord: "https://discord.com/invite/5EyAQ4eNdS",
+  threads: social.find((s) => s.name === "Threads")?.link ?? "",
+  linkedin: social.find((s) => s.name === "LinkedIn")?.link ?? "",
+  discord: social.find((s) => s.name === "Discord")?.link ?? "",
 };
 
 // social sharing configuration for blog posts
