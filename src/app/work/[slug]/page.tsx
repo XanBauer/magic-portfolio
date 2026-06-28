@@ -96,20 +96,11 @@ export default async function Project({ params }: WorkParams) {
 
       {/* Project Description */}
       <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
-        {/* <Text variant="body-default-s" onBackground="neutral-weak">
-          {post.metadata.summary}
-        </Text> */}
-
-        {/* Screen Size Warning */}
         <div style={{ margin: "8px", textAlign: "center" }}>
           <Text variant="body-default-s" onBackground="neutral-weak">
             ⚠️ This project is best viewed on a larger screen.
           </Text>
         </div>
-        
-        {/* <Text variant="body-default-s" onBackground="neutral-weak">
-          This project is best viewed on a larger screen.
-        </Text> */}
       </Column>
 
       {/* Jupyter Notebook Embed */}
