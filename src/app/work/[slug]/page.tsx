@@ -94,42 +94,42 @@ export default async function Project({ params }: WorkParams) {
         />
       )}
 
-      {/* Project Description */}
-      <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
-        <div style={{ margin: "8px", textAlign: "center" }}>
-          <Text variant="body-default-s" onBackground="neutral-weak">
-            ⚠️ This project is best viewed on a larger screen.
-          </Text>
-        </div>
-      </Column>
-
-      {/* Jupyter Notebook Embed */}
-      {post.metadata.notebook_link && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100vw", // Ensures the container takes the full viewport width
-            overflowX: "hidden", // Prevents unwanted horizontal scroll
-          }}
-        >
-          <iframe
-            src={post.metadata.notebook_link}
-            style={{
-              margin: "8px",
-              width: "75%", 
-              height: "600px",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-            }}
-          ></iframe>
-        </div>              
-      )}
-
       {/* Render MDX content */}
       <Column gap="m" horizontal="center" style={{ margin: "auto" }}>
         <CustomMDX source={post.content} />
       </Column>
+
+      {/* Jupyter Notebook Embed */}
+      {post.metadata.notebook_link && (
+        <>
+          <Column style={{ margin: "auto" }} as="article" maxWidth="xs">
+            <div style={{ margin: "8px", textAlign: "center" }}>
+              <Text variant="body-default-s" onBackground="neutral-weak">
+                ⚠️ This project is best viewed on a larger screen.
+              </Text>
+            </div>
+          </Column>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100vw",
+              overflowX: "hidden",
+            }}
+          >
+            <iframe
+              src={post.metadata.notebook_link}
+              style={{
+                margin: "8px",
+                width: "75%",
+                height: "600px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+              }}
+            ></iframe>
+          </div>
+        </>
+      )}
 
       {/* Buttons: View on GitHub & More Projects */}
       <Column maxWidth="xs" horizontal="center" gap="m">

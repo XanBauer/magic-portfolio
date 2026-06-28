@@ -26,7 +26,6 @@ export function Projects({ range }: ProjectsProps) {
             {post.metadata.title}
           </a>
           <ProjectCard
-            priority={index < 2}
             key={post.slug + "-card"}
             href={`/work/${post.slug}`}
             images={post.metadata.images}

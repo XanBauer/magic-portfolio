@@ -40,10 +40,14 @@ type CustomLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
 };
 
-function CustomLink({ href, children, ...props }: CustomLinkProps) {
+function CustomLink({ href, children, style, ...props }: CustomLinkProps) {
+  // SmartLink adds mx-4 px-4 by default, which causes inconsistent spacing in lists.
+  // Zero those out while preserving any caller-provided styles.
+  const inlineStyle = { marginLeft: 0, marginRight: 0, paddingLeft: 0, paddingRight: 0, ...style };
+
   if (href.startsWith("/")) {
     return (
-      <SmartLink href={href} {...props}>
+      <SmartLink href={href} style={inlineStyle} {...props}>
         {children}
       </SmartLink>
     );
@@ -51,14 +55,14 @@ function CustomLink({ href, children, ...props }: CustomLinkProps) {
 
   if (href.startsWith("#")) {
     return (
-      <a href={href} {...props}>
+      <a href={href} style={style} {...props}>
         {children}
       </a>
     );
   }
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+    <a href={href} target="_blank" rel="noopener noreferrer" style={style} {...props}>
       {children}
     </a>
   );
