@@ -89,6 +89,12 @@ git add public/notebooks/fandango-ratings.html
 git commit -m "update: regenerate fandango notebook HTML"
 ```
 
+### Deploying to production
+
+Vercel is connected to this GitHub repo and auto-deploys on every push to `main`. No manual steps needed — pushing a commit is the deploy.
+
+To verify a deploy went through: go to vercel.com/dashboard → select the project → confirm the latest commit shows status "Ready".
+
 ### Upstream sync (monthly or when once-ui releases updates)
 
 This repo is forked from `once-ui-system/magic-portfolio`. To pull in upstream improvements:
