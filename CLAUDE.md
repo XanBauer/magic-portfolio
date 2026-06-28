@@ -65,3 +65,37 @@ mv <filename>.html magic-portfolio/public/notebooks/<filename>.html
 ```
 
 Then commit `public/notebooks/<filename>.html`. The site will immediately reflect the updated notebook — no other changes needed.
+
+## Maintenance
+
+### Notebook updates (as needed)
+
+Whenever a notebook is updated on GitHub, the static HTML must be regenerated — pushing the `.ipynb` to GitHub alone does **not** update the site.
+
+Current notebooks and their source repos:
+
+| File | GitHub repo | Branch/commit |
+|---|---|---|
+| `public/notebooks/fandango-ratings.html` | `XanBauer/Fandango-Ratings` | `main` |
+| `public/notebooks/predicting-car-prices.html` | `XanBauer/Predicting-Car-Prices` | `main` |
+| `public/notebooks/predicting-heart-disease.html` | `XanBauer/predicting_heart_disease` | `d6fbf2d` |
+
+```bash
+# Example: update fandango notebook
+curl -fsSL "https://raw.githubusercontent.com/XanBauer/Fandango-Ratings/main/Investigating_Fandango_Movie_Ratings.ipynb" -o notebook.ipynb
+python3 -m nbconvert --to html notebook.ipynb --output fandango-ratings
+mv fandango-ratings.html public/notebooks/fandango-ratings.html
+git add public/notebooks/fandango-ratings.html
+git commit -m "update: regenerate fandango notebook HTML"
+```
+
+### Upstream sync (monthly or when once-ui releases updates)
+
+This repo is forked from `once-ui-system/magic-portfolio`. To pull in upstream improvements:
+
+```bash
+git fetch upstream
+git merge upstream/main
+```
+
+Review conflicts carefully — upstream changes are usually in `src/once-ui/` (safe to accept) or `package.json`/`package-lock.json` (review before accepting). Changes to `src/app/layout.tsx` may conflict with the local-fonts setup — keep the `next/font/local` version, not the `next/font/google` version from upstream.
