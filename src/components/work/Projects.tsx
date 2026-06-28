@@ -20,17 +20,23 @@ export function Projects({ range }: ProjectsProps) {
   return (
     <Column fillWidth gap="xl" marginBottom="40" paddingX="l">
       {displayedProjects.map((post, index) => (
-        <ProjectCard
-          priority={index < 2}
-          key={post.slug}
-          href={`work/${post.slug}`}
-          images={post.metadata.images}
-          title={post.metadata.title}
-          description={post.metadata.summary}
-          content={post.content}
-          avatars={post.metadata.team?.map((member) => ({ src: member.avatar })) || []}
-          link={post.metadata.link || ""}
-        />
+        <div key={post.slug}>
+          {/* Server-rendered link fallback so navigation works without client hydration */}
+          <a href={`/work/${post.slug}`} className="project-link-server" style={{ display: "none" }}>
+            {post.metadata.title}
+          </a>
+          <ProjectCard
+            priority={index < 2}
+            key={post.slug + "-card"}
+            href={`/work/${post.slug}`}
+            images={post.metadata.images}
+            title={post.metadata.title}
+            description={post.metadata.summary}
+            content={post.content}
+            avatars={post.metadata.team?.map((member) => ({ src: member.avatar })) || []}
+            link={post.metadata.link || ""}
+          />
+        </div>
       ))}
     </Column>
   );

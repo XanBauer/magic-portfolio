@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { fileURLToPath } from "node:url";
 
 type Team = {
   name: string;
@@ -23,6 +24,23 @@ type Metadata = {
 };
 
 import { notFound } from 'next/navigation';
+
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
+
+function resolveContentDir(customPath: string[]) {
+  const localDir = path.join(projectRoot, ...customPath);
+  if (fs.existsSync(localDir)) {
+    return localDir;
+  }
+
+  const cwdDir = path.join(process.cwd(), ...customPath);
+  if (fs.existsSync(cwdDir)) {
+    return cwdDir;
+  }
+
+  const workspaceDir = path.join(process.cwd(), "magic-portfolio", ...customPath);
+  return workspaceDir;
+}
 
 function getMDXFiles(dir: string) {
   if (!fs.existsSync(dir)) {
@@ -71,6 +89,6 @@ function getMDXData(dir: string) {
 }
 
 export function getPosts(customPath = ["", "", "", ""]) {
-  const postsDir = path.join(process.cwd(), ...customPath);
+  const postsDir = resolveContentDir(customPath);
   return getMDXData(postsDir);
 }
