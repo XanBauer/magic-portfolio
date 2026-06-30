@@ -8,7 +8,7 @@ import {
   Heading,
   SmartLink,
   Text,
-} from "@/once-ui/components";
+} from "@once-ui-system/core";
 
 interface ProjectCardProps {
   href: string;
@@ -31,16 +31,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <Column fillWidth gap="m">
-      {/* Wrap in a relative div so SmartLink can overlay */}
       <div style={{ position: "relative" }}>
         <Carousel
           sizes="(max-width: 960px) 100vw, 960px"
-          images={images.map((image) => ({
-            src: image,
-            alt: title
+          items={images.map((image) => ({
+            slide: image,
+            alt: title,
           }))}
         />
-        {/* Clickable overlay for the entire carousel */}
         <SmartLink
           href={href}
           style={{
@@ -49,15 +47,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             left: 0,
             width: "100%",
             height: "100%",
-            zIndex: 10, // Ensures the link is clickable over the image
+            zIndex: 10,
           }}
         >
           <span style={{ display: "block", width: "100%", height: "100%" }}></span>
         </SmartLink>
       </div>
-
       <Flex
-        mobileDirection="column"
+        s={{ direction: "column" }}
         fillWidth
         paddingX="s"
         paddingTop="12"

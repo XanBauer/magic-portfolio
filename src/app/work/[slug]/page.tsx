@@ -1,15 +1,20 @@
 import { notFound } from "next/navigation";
-import { CustomMDX } from "@/components/mdx";
-import { getPosts } from "@/app/utils/utils";
-import { Button, Column, Heading, SmartImage, Text } from "@/once-ui/components";
-import { baseURL } from "@/app/resources";
-import ScrollToHash from "@/components/ScrollToHash";
-
-interface WorkParams {
-  params: Promise<{
-    slug: string;
-  }>;
-}
+import { getPosts } from "@/utils/utils";
+import {
+  Meta,
+  Schema,
+  Button,
+  Column,
+  Heading,
+  Media,
+  Text,
+  SmartLink,
+  Row,
+} from "@once-ui-system/core";
+import { baseURL, about, person, work } from "@/resources";
+import { formatDate } from "@/utils/formatDate";
+import { ScrollToHash, CustomMDX } from "@/components";
+import { Metadata } from "next";
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const posts = getPosts(["src", "app", "work", "projects"]);
@@ -18,34 +23,41 @@ export async function generateStaticParams(): Promise<{ slug: string }[]> {
   }));
 }
 
-export async function generateMetadata({ params }: WorkParams) {
-  const { slug } = await params;
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string | string[] }>;
+}): Promise<Metadata> {
+  const routeParams = await params;
+  const slugPath = Array.isArray(routeParams.slug)
+    ? routeParams.slug.join("/")
+    : routeParams.slug || "";
 
-  if (!post) {
-    return;
-  }
+  const posts = getPosts(["src", "app", "work", "projects"]);
+  let post = posts.find((post) => post.slug === slugPath);
 
-  let { title, summary: description, image } = post.metadata;
-  let ogImage = image ? `https://${baseURL}${image}` : `https://${baseURL}/og?title=${title}`;
+  if (!post) return {};
 
-  return {
-    title,
-    description,
-    images: [ogImage],
-    openGraph: {
-      title,
-      description,
-      type: "article",
-      url: `https://${baseURL}/work/${post.slug}`,
-      images: [{ url: ogImage }],
-    },
-  };
+  return Meta.generate({
+    title: post.metadata.title,
+    description: post.metadata.summary,
+    baseURL: baseURL,
+    image: post.metadata.image || `/api/og/generate?title=${post.metadata.title}`,
+    path: `${work.path}/${post.slug}`,
+  });
 }
 
-export default async function Project({ params }: WorkParams) {
-  const { slug } = await params;
-  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slug);
+export default async function Project({
+  params,
+}: {
+  params: Promise<{ slug: string | string[] }>;
+}) {
+  const routeParams = await params;
+  const slugPath = Array.isArray(routeParams.slug)
+    ? routeParams.slug.join("/")
+    : routeParams.slug || "";
+
+  let post = getPosts(["src", "app", "work", "projects"]).find((post) => post.slug === slugPath);
 
   if (!post) {
     notFound();
@@ -53,39 +65,38 @@ export default async function Project({ params }: WorkParams) {
 
   return (
     <Column as="section" maxWidth="m" horizontal="center" gap="l">
-      {/* JSON-LD Schema (without Twitter & publishedTime) */}
-      <script
-        type="application/ld+json"
-        suppressHydrationWarning
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.metadata.title,
-            description: post.metadata.summary,
-            image: post.metadata.image
-              ? `https://${baseURL}${post.metadata.image}`
-              : `https://${baseURL}/og?title=${post.metadata.title}`,
-            url: `https://${baseURL}/work/${post.slug}`,
-            author: {
-              "@type": "Person",
-              name: "Xan Bauer",
-            },
-          }),
+      <Schema
+        as="blogPosting"
+        baseURL={baseURL}
+        path={`${work.path}/${post.slug}`}
+        title={post.metadata.title}
+        description={post.metadata.summary}
+        datePublished={post.metadata.publishedAt}
+        dateModified={post.metadata.publishedAt}
+        image={
+          post.metadata.image || `/api/og/generate?title=${encodeURIComponent(post.metadata.title)}`
+        }
+        author={{
+          name: person.name,
+          url: `${baseURL}${about.path}`,
+          image: `${baseURL}${person.avatar}`,
         }}
       />
-      
-      {/* Back Button */}
+
       <Button href="/work" variant="tertiary" weight="default" size="s" prefixIcon="chevronLeft">
         Projects
       </Button>
 
-      {/* Title */}
       <Heading variant="display-strong-s">{post.metadata.title}</Heading>
 
-      {/* Thumbnail Image */}
+      {post.metadata.publishedAt && (
+        <Text variant="body-default-xs" onBackground="neutral-weak">
+          {formatDate(post.metadata.publishedAt)}
+        </Text>
+      )}
+
       {post.metadata.image && (
-        <SmartImage
+        <Media
           priority
           aspectRatio="16 / 9"
           radius="m"
@@ -94,7 +105,7 @@ export default async function Project({ params }: WorkParams) {
         />
       )}
 
-      {/* Render MDX content */}
+      {/* MDX content: Overview, Key Features, Skills */}
       <Column gap="m" horizontal="center" style={{ margin: "auto" }}>
         <CustomMDX source={post.content} />
       </Column>
@@ -131,18 +142,20 @@ export default async function Project({ params }: WorkParams) {
         </>
       )}
 
-      {/* Buttons: View on GitHub & More Projects */}
-      <Column maxWidth="xs" horizontal="center" gap="m">
-        <Button
-          href={post.metadata.project_github}
-          target="_blank"
-          variant="primary"
-          weight="strong"
-          size="m"
-        >
-          View on GitHub
-        </Button>
-      </Column>
+      {/* GitHub button */}
+      {post.metadata.project_github && (
+        <Column maxWidth="xs" horizontal="center" gap="m">
+          <Button
+            href={post.metadata.project_github}
+            target="_blank"
+            variant="primary"
+            weight="strong"
+            size="m"
+          >
+            View on GitHub
+          </Button>
+        </Column>
+      )}
 
       <ScrollToHash />
     </Column>
