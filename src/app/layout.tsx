@@ -14,15 +14,7 @@ import {
   SpacingToken,
 } from "@once-ui-system/core";
 import { Footer, Header, RouteGuard, Providers } from "@/components";
-import { baseURL, effects, style, dataStyle, home, person } from "@/resources";
-import localFont from "next/font/local";
-
-const headingFont = localFont({ src: "../../public/fonts/Inter.ttf",               variable: "--font-heading", display: "swap" });
-const bodyFont    = localFont({ src: "../../public/fonts/Inter.ttf",               variable: "--font-body",    display: "swap" });
-const labelFont   = localFont({ src: "../../public/fonts/Inter.ttf",               variable: "--font-label",   display: "swap" });
-const codeFont    = localFont({ src: "../../public/fonts/SourceCodePro.woff2",     variable: "--font-code",    display: "swap" });
-
-const fonts = { heading: headingFont, body: bodyFont, label: labelFont, code: codeFont };
+import { baseURL, effects, fonts, style, dataStyle, home, person } from "@/resources";
 
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/next';
