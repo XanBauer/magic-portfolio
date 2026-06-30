@@ -47,6 +47,15 @@ for f in "${FILES_TAKE_THEIRS[@]}"; do
   fi
 done
 
+# Pin Vercel package versions in package.json — upstream bumped these to v2
+# which breaks Vercel's build environment; v1 is what actually works.
+if [ -f "package.json" ]; then
+  sed -i '' 's|"@vercel/analytics": "[^"]*"|"@vercel/analytics": "^1.6.1"|g' package.json
+  sed -i '' 's|"@vercel/speed-insights": "[^"]*"|"@vercel/speed-insights": "^1.3.1"|g' package.json
+  log "Pinned @vercel/analytics → ^1.6.1, @vercel/speed-insights → ^1.3.1"
+  git add package.json
+fi
+
 # ── 2. Keep our versions ──────────────────────────────────────────────────────
 # These files we always own.
 echo ""
